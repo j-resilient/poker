@@ -34,12 +34,15 @@ describe 'Deck' do
 
     describe '#deal' do
         let(:hand) { deck.deal }
+
         it 'returns five objects' do
             expect(hand.length).to eq(5)
         end
         it 'returns card objects' do
             hand.each { |card| expect(card).to be_a(Card) }
         end
+
+        before(:each) { deck.deal }
         it 'removes five cards from deck' do
             expect(deck.deck.length).to eq(47)
         end
@@ -58,17 +61,18 @@ describe 'Deck' do
         context 'with five cards dealt' do
             before(:each) { deck.deal }
             it 'returns 47 cards' do
-                expect(deal.card_count).to eq(47)
+                expect(deck.card_count).to eq(47)
             end
         end
     end
 
     describe '#draw' do
         let(:card) { deck.draw }
-
         it 'returns a card' do
             expect(card).to be_a(Card)
         end
+
+        before(:each) { deck.draw}
         it 'removes one card from deck' do
             expect(deck.card_count).to eq(51)
         end

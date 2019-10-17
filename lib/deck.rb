@@ -11,12 +11,19 @@ class Deck
         deck.shuffle!
     end
 
+    def card_count
+        deck.length
+    end
+
+    def deal
+        deck.shift(5)
+    end
+
+    def draw
+        deck.shift
+    end
+
     private
-    SUITS = ["heart", "diamond", "spade", "club"]
-    VALUES = [
-        "ace", "king", "queen", "jack", "10", 
-        "9", "8", "7", "6", "5", "4", "3", "2"
-    ]
     FACES = {
         "spade" =>
             {
@@ -49,9 +56,3 @@ class Deck
         cards
     end
 end
-
-d = Deck.new
-d.deck.each { |card| print "#{card.display} " }
-puts
-d.deck.shuffle!
-d.deck.each { |card| print "#{card.display} " }
