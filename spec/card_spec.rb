@@ -45,4 +45,20 @@ describe 'Card' do
             end
         end
     end
+
+    describe '#==' do
+        let(:ace_spade) { Card.new("spade", "ace", "🂡") }
+
+        context 'when two cards are the same' do
+            it 'returns true' do
+                expect(heart_ace == heart_ace).to be true
+            end
+        end
+
+        context 'when two cards are different' do
+            it 'returns false' do
+                expect(heart_ace == ace_spade).to be false
+            end
+        end
+    end
 end

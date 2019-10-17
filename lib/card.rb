@@ -14,4 +14,8 @@ class Card
     def display
         revealed ? face : back_of_card
     end
+
+    def ==(card2)
+        self.face == card2.face
+    end
 end
