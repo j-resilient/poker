@@ -1,14 +1,14 @@
 require 'card'
 
 describe 'Card' do
-    subject(:heart_ace) { Card.new("heart", "ace", "🂱")}
+    subject(:heart_ace) { Card.new(:heart, :ace, "🂱")}
 
     describe "#initialize" do
         it "sets a suit" do
-            expect(heart_ace.suit).to eq("heart")
+            expect(heart_ace.suit).to eq(:heart)
         end
         it "sets a value" do
-            expect(heart_ace.value).to eq("ace")
+            expect(heart_ace.value).to eq(:ace)
         end
         it "sets a face" do 
             expect(heart_ace.face).to eq("🂱")
@@ -47,7 +47,7 @@ describe 'Card' do
     end
 
     describe '#==' do
-        let(:ace_spade) { Card.new("spade", "ace", "🂡") }
+        let(:ace_spade) { Card.new(:spade, :ace, "🂡") }
 
         context 'when two cards are the same' do
             it 'returns true' do
