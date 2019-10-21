@@ -8,7 +8,7 @@ describe 'Deck' do
             expect(deck.deck.length).to eq(52)
         end
         it 'deck has no duplicates' do
-            expect(deck.deck).to eq(deck.deck.uniq { |card| card.face })
+            expect(deck.deck).to eq(deck.deck.uniq { |card| card.display })
         end
         it 'deck contains card objects' do
             deck.deck.each do |card|
@@ -26,9 +26,6 @@ describe 'Deck' do
         end
         it 'does not remove cards' do
             expect(deck.deck.length).to eq(52)
-        end
-        it 'does not change the contents of the deck' do
-            expect(deck.deck).to match_array(cards.deck)
         end
     end
 
