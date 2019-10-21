@@ -111,33 +111,37 @@ describe 'Hand' do
         Card.new("card", :suit => :heart, :value => :three)
     ])}
 
-    describe '#get_hand' do
-        it 'identifies straight flush' do
-            expect(straight_flush.get_hand).to eq(:straight_flush)
-        end
-        it 'identifies four of a kind' do
-            expect(four_kind.get_hand).to eq(:four_kind)
-        end
-        it 'identifies full house' do
-            expect(full_house.get_hand).to eq(:full_house)
-        end
-        it 'identifies flush' do
-            expect(flush.get_hand).to eq(:flush)
-        end
-        it 'identifies straight' do
-            expect(straight.get_hand).to eq(:straight)
-        end
-        it 'identifies three of a kind' do
-            expect(three_kind.get_hand).to eq(:three_kind)
-        end
-        it 'identifies two pair' do
-            expect(two_pair.get_hand).to eq(:two_pair)
-        end
-        it 'identifies one pair' do
-            expect(one_pair.get_hand).to eq(:one_pair)
-        end
-        it 'identifies high card hand' do
-            expect(high_card.get_hand).to eq(:high_card)
+    let(:hands) do [
+        straight_flush,
+        four_kind,
+        full_house,
+        flush,
+        straight,
+        three_kind,
+        two_pair,
+        one_pair,
+        high_card
+    ]
+    end
+
+    let(:hand_ranks) do [
+        :straight_flush,
+        :four_kind,
+        :full_house,
+        :flush,
+        :straight,
+        :three_kind,
+        :two_pair,
+        :one_pair,
+        :high_card
+    ]
+    end
+
+    describe "#get_hand" do
+        it 'returns the correct hand rank of the hand' do
+            hands.each_with_index do |hand, idx|
+                expect(hand.hand_rank).to eq(hand_ranks[i])
+            end
         end
     end
 end
