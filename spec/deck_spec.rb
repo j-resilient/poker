@@ -93,7 +93,7 @@ describe 'Deck' do
         end
         it "doesn't take more cards than are in the deck" do
             expect do
-                deck.draw
+                53.times { deck.draw }
             end.to raise_error("Deck empty.")
         end
     end
