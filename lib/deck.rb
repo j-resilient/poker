@@ -16,11 +16,17 @@ class Deck
     end
 
     def deal
+        raise "Deck is empty." unless (deck.length - 5) >= 0
         deck.shift(5)
     end
 
     def draw
+        raise "Deck is empty." unless (deck.length - 1) >= 0
         deck.shift
+    end
+
+    def return_cards(cards)
+        deck.concat(cards)
     end
 
     private
