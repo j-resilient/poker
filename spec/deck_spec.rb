@@ -50,7 +50,7 @@ describe 'Deck' do
         end
         it "won't let you take more cards when the deck is empty" do
             expect do
-                deck.deal
+                52.times { deck.deal }
             end.to raise_error("Deck is empty.")
         end
 
