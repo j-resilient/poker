@@ -4,10 +4,12 @@ describe 'Deck' do
     subject(:deck) { Deck.new }
 
     let(:small_deck) do
-        double("card", :suit => :heart, :value => :ace)
-        double("card", :suit => :diamond, :value => :two)
-        double("card", :suit => :club, :value => :three)
-        double("card", :suit => :spade, :value => :four)
+        [
+            double("card", :suit => :heart, :value => :ace),
+            double("card", :suit => :diamond, :value => :two),
+            double("card", :suit => :club, :value => :three),
+            double("card", :suit => :spade, :value => :four)
+        ]
     end
 
     describe '#initialize' do
@@ -24,7 +26,7 @@ describe 'Deck' do
         end
         it 'can be initialized with an array of cards' do
             small = Deck.new(small_deck)
-            expect(small.count).to eq(4)
+            expect(small.deck.length).to eq(small_deck.length)
         end
     end
 
