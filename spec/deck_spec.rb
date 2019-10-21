@@ -94,7 +94,7 @@ describe 'Deck' do
         it "doesn't take more cards than are in the deck" do
             expect do
                 53.times { deck.draw }
-            end.to raise_error("Deck empty.")
+            end.to raise_error("Deck is empty.")
         end
     end
 
