@@ -3,6 +3,13 @@ require 'deck'
 describe 'Deck' do
     subject(:deck) { Deck.new }
 
+    let(:small_deck) do
+        double("card", :suit => :heart, :value => :ace)
+        double("card", :suit => :diamond, :value => :two)
+        double("card", :suit => :club, :value => :three)
+        double("card", :suit => :spade, :value => :four)
+    end
+
     describe '#initialize' do
         it 'deck contains 52 cards' do
             expect(deck.deck.length).to eq(52)
@@ -10,10 +17,14 @@ describe 'Deck' do
         it 'deck has no duplicates' do
             expect(deck.deck).to eq(deck.deck.uniq { |card| card.display })
         end
-        it 'deck contains card objects' do
+        it 'deck contains only card objects' do
             deck.deck.each do |card|
                 expect(card).to be_a(Card)
             end
+        end
+        it 'can be initialized with an array of cards' do
+            small = Deck.new(small_deck)
+            expect(small.count).to eq(4)
         end
     end
 
@@ -35,8 +46,10 @@ describe 'Deck' do
         it 'returns five objects' do
             expect(hand.length).to eq(5)
         end
-        it 'returns card objects' do
-            hand.each { |card| expect(card).to be_a(Card) }
+        it "won't let you take more cards when the deck is empty" do
+            expect do
+                deck.deal
+            end.to raise_error("Deck is empty.")
         end
 
         before(:each) { deck.deal }
@@ -75,6 +88,21 @@ describe 'Deck' do
         end
         it 'removes the returned card from deck' do
             expect(deck.deck).to_not include(card)
+        end
+        it "doesn't take more cards than are in the deck" do
+            expect do
+                deck.draw
+            end.to raise_error("Deck empty.")
+        end
+    end
+
+    describe '#return_cards' do
+        before(:each) { deck.return(small_deck) }
+        it 'returns the cards to the deck' do
+            expect(deck.count).to eq(56)
+        end
+        it 'adds the cards to the bottom of the deck' do
+            expect(deck.deck[-1]).to eq(small_deck[-1])
         end
     end
 end
