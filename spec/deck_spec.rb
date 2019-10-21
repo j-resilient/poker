@@ -99,9 +99,9 @@ describe 'Deck' do
     end
 
     describe '#return_cards' do
-        before(:each) { deck.return(small_deck) }
+        before(:each) { deck.return_cards(small_deck) }
         it 'returns the cards to the deck' do
-            expect(deck.count).to eq(56)
+            expect(deck.card_count).to eq(56)
         end
         it 'adds the cards to the bottom of the deck' do
             expect(deck.deck[-1]).to eq(small_deck[-1])
