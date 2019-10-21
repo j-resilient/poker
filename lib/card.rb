@@ -1,21 +1,35 @@
 class Card
-    attr_reader :suit, :value, :face, :revealed, :back_of_card
+    attr_reader :suit, :value
 
-    def initialize(suit, value, face)
-        @suit, @value, @face = suit, value, face
-        @revealed = false
-        @back_of_card = "🂠"
-    end
-
-    def reveal
-        @revealed = true
+    def initialize(suit, value)
+        @suit, @value = suit, value
     end
 
     def display
-        revealed ? face : back_of_card
+        FACES[suit][value]
     end
 
-    def ==(card2)
-        self.face == card2.face
-    end
+    private
+    FACES = {
+        :spade =>
+            {
+                :ace => "🂡", :king => "🂮", :queen => "🂭", :jack => "🂫", :ten => "🂪", :nine => "🂩",
+                :eight => "🂨", :seven => "🂧", :six => "🂦", :five => "🂥", :four => "🂤", :three => "🂣", :two => "🂢"
+            },
+        :heart =>
+            {
+                :ace => "🂱", :king => "🂾", :queen => "🂽", :jack => "🂻", :ten => "🂺", :nine => "🂹",
+                :eight => "🂸", :seven => "🂷", :six => "🂶", :five => "🂵", :four => "🂴", :three => "🂳", :two => "🂲"
+            },
+        :diamond =>
+            {
+                :ace => "🃁", :king => "🃎", :queen => "🃍", :jack => "🃋", :ten => "🃊", :nine => "🃉",
+                :eight => "🃈", :seven => "🃇", :six => "🃆", :five => "🃅", :four => "🃄", :three => "🃃", :two => "🃂"
+            },
+        :club =>
+            {
+                :ace => "🃑", :king => "🃞", :queen => "🃝", :jack => "🃛", :ten => "🃚", :nine => "🃙",
+                :eight => "🃘", :seven => "🃗", :six => "🃖", :five => "🃕", :four => "🃔", :three => "🃓", :two => "🃒"
+            }
+    }
 end
