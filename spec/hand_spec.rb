@@ -41,77 +41,106 @@ describe 'Hand' do
         end
     end
 
-    let (:straight_flush) { Hand.new([
-        Card.new("card", :suit => club, :value => :jack),
-        Card.new("card", :suit => club, :value => :ten),
-        Card.new("card", :suit => club, :value => :nine),
-        Card.new("card", :suit => club, :value => :eight),
-        Card.new("card", :suit => club, :value => :seven)
-    ])}
+    let(:straight_flush) do
+        Hand.new([
+            Card.new("card", :suit => club, :value => :jack),
+            Card.new("card", :suit => club, :value => :ten),
+            Card.new("card", :suit => club, :value => :nine),
+            Card.new("card", :suit => club, :value => :eight),
+            Card.new("card", :suit => club, :value => :seven)
+        ])
+    end
 
-    let (:four_kind) { Hand.new([
-        Card.new("card", :suit => :club, :value => :five),
-        Card.new("card", :suit => :diamond, :value => :five),
-        Card.new("card", :suit => :heart, :value => :five),
-        Card.new("card", :suit => :spade, :value => :five),
-        Card.new("card", :suit => :diamond, :value => :two)
-    ])}
+    let(:four_kind) do
+        Hand.new([
+            Card.new("card", :suit => :club, :value => :five),
+            Card.new("card", :suit => :diamond, :value => :five),
+            Card.new("card", :suit => :heart, :value => :five),
+            Card.new("card", :suit => :spade, :value => :five),
+            Card.new("card", :suit => :diamond, :value => :two)
+        ])
+    end
 
-    let (:full_house) { Hand.new([
-        Card.new("card", :suit => :spade, :value => :six),
-        Card.new("card", :suit => :heart, :value => :six),
-        Card.new("card", :suit => :diamond, :value => :six),
-        Card.new("card", :suit => :club, :value => :king),
-        Card.new("card", :suit => :heart, :value => :king)
-    ])}
+    let(:full_house) do
+        Hand.new([
+            Card.new("card", :suit => :spade, :value => :six),
+            Card.new("card", :suit => :heart, :value => :six),
+            Card.new("card", :suit => :diamond, :value => :six),
+            Card.new("card", :suit => :club, :value => :king),
+            Card.new("card", :suit => :heart, :value => :king)
+        ])
+    end
 
-    let (:flush) { Hand.new([
-        Card.new("card", :suit => :diamond, :value => :jack),
-        Card.new("card", :suit => :diamond, :value => :nine),
-        Card.new("card", :suit => :diamond, :value => :eight),
-        Card.new("card", :suit => :diamond, :value => :four),
-        Card.new("card", :suit => :diamond, :value => :three)
-    ])}
+    let(:flush) do
+        Hand.new([
+            Card.new("card", :suit => :diamond, :value => :jack),
+            Card.new("card", :suit => :diamond, :value => :nine),
+            Card.new("card", :suit => :diamond, :value => :eight),
+            Card.new("card", :suit => :diamond, :value => :four),
+            Card.new("card", :suit => :diamond, :value => :three)
+        ])
+    end
 
-    let (:straight) { Hand.new([
-        Card.new("card", :suit => :diamond, :value => :ten),
-        Card.new("card", :suit => :spade, :value => :nine),
-        Card.new("card", :suit => :heart, :value => :eight),
-        Card.new("card", :suit => :diamond, :value => :seven),
-        Card.new("card", :suit => :club, :value => :six)
-    ])}
+    let(:straight) do
+        Hand.new([
+            Card.new("card", :suit => :diamond, :value => :ten),
+            Card.new("card", :suit => :spade, :value => :nine),
+            Card.new("card", :suit => :heart, :value => :eight),
+            Card.new("card", :suit => :diamond, :value => :seven),
+            Card.new("card", :suit => :club, :value => :six)
+        ])
+    end
 
-    let (:three_kind) { Hand.new([
-        Card.new("card", :suit => :club, :value => :queen),
-        Card.new("card", :suit => :spade, :value => :queen),
-        Card.new("card", :suit => :heart, :value => :queen),
-        Card.new("card", :suit => :heart, :value => :nine),
-        Card.new("card", :suit => :spade, :value => :two)
-    ])}
+    let(:ace_low_straight) do
+        Hand.new([
+            Card.new(:heart, :ace),
+            Card.new(:spade, :two),
+            Card.new(:diamond, :three),
+            Card.new(:club, :four),
+            Card.new(:heart, :five)
+        ])
+    end
 
-    let (:two_pair) { Hand.new([
-        Card.new("card", :suit => :heart, :value => :jack),
-        Card.new("card", :suit => :spade, :value => :jack),
-        Card.new("card", :suit => :club, :value => :three),
-        Card.new("card", :suit => :spade, :value => :three),
-        Card.new("card", :suit => :heart, :value => :two)
-    ])}
+    let(:three_kind) do
+        Hand.new([
+            Card.new("card", :suit => :club, :value => :queen),
+            Card.new("card", :suit => :spade, :value => :queen),
+            Card.new("card", :suit => :heart, :value => :queen),
+            Card.new("card", :suit => :heart, :value => :nine),
+            Card.new("card", :suit => :spade, :value => :two)
+        ])
+    end
 
-    let (:one_pair) { Hand.new([
-        Card.new("card", :suit => :spade, :value => :ten),
-        Card.new("card", :suit => :heart, :value => :ten),
-        Card.new("card", :suit => :spade, :value => :eight),
-        Card.new("card", :suit => :heart, :value => :seven),
-        Card.new("card", :suit => :club, :value => :four)
-    ])}
+    let(:two_pair) do
+        Hand.new([
+            Card.new("card", :suit => :heart, :value => :jack),
+            Card.new("card", :suit => :spade, :value => :jack),
+            Card.new("card", :suit => :club, :value => :three),
+            Card.new("card", :suit => :spade, :value => :three),
+            Card.new("card", :suit => :heart, :value => :two)
+        ])
+    end
 
-    let (:high_card) { Hand.new([
-        Card.new("card", :suit => :diamond, :value => :king),
-        Card.new("card", :suit => :diamond, :value => :queen),
-        Card.new("card", :suit => :spade, :value => :seven),
-        Card.new("card", :suit => :spade, :value => :four),
-        Card.new("card", :suit => :heart, :value => :three)
-    ])}
+    let(:one_pair) do
+        Hand.new([
+            Card.new("card", :suit => :spade, :value => :ten),
+            Card.new("card", :suit => :heart, :value => :ten),
+            Card.new("card", :suit => :spade, :value => :eight),
+            Card.new("card", :suit => :heart, :value => :seven),
+            Card.new("card", :suit => :club, :value => :four)
+        ])
+    end
+
+    let(:high_card)do
+     Hand.new([
+            Card.new("card", :suit => :diamond, :value => :king),
+            Card.new("card", :suit => :diamond, :value => :queen),
+            Card.new("card", :suit => :spade, :value => :seven),
+            Card.new("card", :suit => :spade, :value => :four),
+            Card.new("card", :suit => :heart, :value => :three  )
+
+        ])
+    end
 
     let(:hands) do [
         straight_flush,
@@ -144,6 +173,10 @@ describe 'Hand' do
             hands.each_with_index do |hand, idx|
                 expect(hand.hand_rank).to eq(hand_ranks[i])
             end
+        end
+
+        it 'allows ace to be low' do
+            expect(ace_low_straight.hand_rank).to eq(straight)
         end
     end
 
@@ -305,15 +338,6 @@ describe 'Hand' do
                         Card.new(:heart, :seven)
                     ])
                 end
-                let(:ace_low_straight) do
-                    Hand.new([
-                        Card.new(:heart, :ace),
-                        Card.new(:spade, :two),
-                        Card.new(:diamond, :three),
-                        Card.new(:club, :four),
-                        Card.new(:heart, :five)
-                    ])
-                end
                 let(:low_straight) do
                     Hand.new([
                         Card.new(:spade, :six),
@@ -424,6 +448,13 @@ describe 'Hand' do
                 it 'returns the higher card hand' do
                     expect(higher_card <=> garbage_hand).to eq(1)
                 end
+            end
+        end
+
+        describe '::winner' do
+            it 'returns the winning hand' do
+                hands = [straight_flush, straight, one_pair]
+                expect(Hand.winner(hands)).to eq(straight_flush)
             end
         end
     end
