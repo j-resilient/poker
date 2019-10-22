@@ -43,51 +43,51 @@ describe 'Hand' do
 
     let(:straight_flush) do
         Hand.new([
-            Card.new("card", :suit => club, :value => :jack),
-            Card.new("card", :suit => club, :value => :ten),
-            Card.new("card", :suit => club, :value => :nine),
-            Card.new("card", :suit => club, :value => :eight),
-            Card.new("card", :suit => club, :value => :seven)
+            Card.new(:club, :jack),
+            Card.new(:club, :ten),
+            Card.new(:club, :nine),
+            Card.new(:club, :eight),
+            Card.new(:club, :seven)
         ])
     end
 
     let(:four_kind) do
         Hand.new([
-            Card.new("card", :suit => :club, :value => :five),
-            Card.new("card", :suit => :diamond, :value => :five),
-            Card.new("card", :suit => :heart, :value => :five),
-            Card.new("card", :suit => :spade, :value => :five),
-            Card.new("card", :suit => :diamond, :value => :two)
+            Card.new(:club, :five),
+            Card.new(:diamond, :five),
+            Card.new(:heart, :five),
+            Card.new(:spade, :five),
+            Card.new(:diamond, :two)
         ])
     end
 
     let(:full_house) do
         Hand.new([
-            Card.new("card", :suit => :spade, :value => :six),
-            Card.new("card", :suit => :heart, :value => :six),
-            Card.new("card", :suit => :diamond, :value => :six),
-            Card.new("card", :suit => :club, :value => :king),
-            Card.new("card", :suit => :heart, :value => :king)
+            Card.new(:spade, :six),
+            Card.new(:heart, :six),
+            Card.new(:diamond, :six),
+            Card.new(:club, :king),
+            Card.new(:heart, :king)
         ])
     end
 
     let(:flush) do
         Hand.new([
-            Card.new("card", :suit => :diamond, :value => :jack),
-            Card.new("card", :suit => :diamond, :value => :nine),
-            Card.new("card", :suit => :diamond, :value => :eight),
-            Card.new("card", :suit => :diamond, :value => :four),
-            Card.new("card", :suit => :diamond, :value => :three)
+            Card.new(:diamond, :jack),
+            Card.new(:diamond, :nine),
+            Card.new(:diamond, :eight),
+            Card.new(:diamond, :four),
+            Card.new(:diamond, :three)
         ])
     end
 
     let(:straight) do
         Hand.new([
-            Card.new("card", :suit => :diamond, :value => :ten),
-            Card.new("card", :suit => :spade, :value => :nine),
-            Card.new("card", :suit => :heart, :value => :eight),
-            Card.new("card", :suit => :diamond, :value => :seven),
-            Card.new("card", :suit => :club, :value => :six)
+            Card.new(:diamond, :ten),
+            Card.new(:spade, :nine),
+            Card.new(:heart, :eight),
+            Card.new(:diamond, :seven),
+            Card.new(:club, :six)
         ])
     end
 
@@ -103,41 +103,41 @@ describe 'Hand' do
 
     let(:three_kind) do
         Hand.new([
-            Card.new("card", :suit => :club, :value => :queen),
-            Card.new("card", :suit => :spade, :value => :queen),
-            Card.new("card", :suit => :heart, :value => :queen),
-            Card.new("card", :suit => :heart, :value => :nine),
-            Card.new("card", :suit => :spade, :value => :two)
+            Card.new(:club, :queen),
+            Card.new(:spade, :queen),
+            Card.new(:heart, :queen),
+            Card.new(:heart, :nine),
+            Card.new(:spade, :two)
         ])
     end
 
     let(:two_pair) do
         Hand.new([
-            Card.new("card", :suit => :heart, :value => :jack),
-            Card.new("card", :suit => :spade, :value => :jack),
-            Card.new("card", :suit => :club, :value => :three),
-            Card.new("card", :suit => :spade, :value => :three),
-            Card.new("card", :suit => :heart, :value => :two)
+            Card.new(:heart, :jack),
+            Card.new(:spade, :jack),
+            Card.new(:club, :three),
+            Card.new(:spade, :three),
+            Card.new(:heart, :two)
         ])
     end
 
     let(:one_pair) do
         Hand.new([
-            Card.new("card", :suit => :spade, :value => :ten),
-            Card.new("card", :suit => :heart, :value => :ten),
-            Card.new("card", :suit => :spade, :value => :eight),
-            Card.new("card", :suit => :heart, :value => :seven),
-            Card.new("card", :suit => :club, :value => :four)
+            Card.new(:spade, :ten),
+            Card.new(:heart, :ten),
+            Card.new(:spade, :eight),
+            Card.new(:heart, :seven),
+            Card.new(:club, :four)
         ])
     end
 
     let(:high_card)do
      Hand.new([
-            Card.new("card", :suit => :diamond, :value => :king),
-            Card.new("card", :suit => :diamond, :value => :queen),
-            Card.new("card", :suit => :spade, :value => :seven),
-            Card.new("card", :suit => :spade, :value => :four),
-            Card.new("card", :suit => :heart, :value => :three  )
+            Card.new(:diamond, :king),
+            Card.new(:diamond, :queen),
+            Card.new(:spade, :seven),
+            Card.new(:spade, :four),
+            Card.new(:heart, :three  )
 
         ])
     end
