@@ -16,16 +16,16 @@ describe 'Hand' do
         it 'sets hand to input' do
             expect(garbage_hand.hand).to eq(garbage_cards)
         end
-        it 'sets hand_type to appropriate type' do
-            expect(garbage_hand.type).to eq("high card")
-        end
     end
 
     describe '#trade_cards' do
-        before(:each) { garbage_hand.discard([garbage_cards[0], garbage_cards[1]]) }
+        let(:new_cards) { [Card.new(:heart, :ace), Card.new(:spade, :ten)] }
+        let(:discard) { [garbage_cards[0], garbage_cards[1]] }
+        before(:each) { garbage_hand.trade_cards(discard, new_cards) }
+
         it 'removes expected cards from hand' do
-            expect(garbage_hand.hand).to_not include(garbage_cards[0])
-            expect(garbage_hand.hand).to_not include(garbage_cards[1])
+            expect(garbage_hand.hand).to_not include(discard[0])
+            expect(garbage_hand.hand).to_not include(discard[1])
         end
         it 'does not remove any other cards from hand' do
             garbage_cards[3..-1].each do |card|
@@ -33,11 +33,11 @@ describe 'Hand' do
             end
         end
         it 'adds new cards to hand' do
-            expect(garbage_cards).to_not include(garbage_hand[-1])
-            expect(garbage_cards).to_not include(garbage_hand[-2])
+            expect(garbage_cards).to include(new_cards[0])
+            expect(garbage_cards).to include(new_cards[1])
         end
         it 'does not discard cards that were never in hand' do
-            expect{ garbage_hand.discard([double(:suit => sugar, :value => :zero)])}.to raise_error("Cannot discard card you don't have.")
+            expect{ garbage_hand.trade_cards([Card.new(:heart, :jack)], [Card.new(:spade, :seven)]) }.to raise_error("Cannot discard card you don't have.")
         end
     end
 
