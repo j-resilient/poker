@@ -176,7 +176,7 @@ describe 'Hand' do
         end
 
         it 'allows ace to be low' do
-            expect(ace_low_straight.hand_rank).to eq(straight)
+            expect(ace_low_straight.hand_rank).to eq(:straight)
         end
     end
 
