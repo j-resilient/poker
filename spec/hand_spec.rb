@@ -168,10 +168,10 @@ describe 'Hand' do
     ]
     end
 
-    describe "#get_hand" do
+    describe "#hand_rank" do
         it 'returns the correct hand rank of the hand' do
             hands.each_with_index do |hand, idx|
-                expect(hand.hand_rank).to eq(hand_ranks[i])
+                expect(hand.hand_rank).to eq(hand_ranks[idx])
             end
         end
 
