@@ -178,11 +178,32 @@ describe 'Hand' do
                         Card.new(:seven, :diamond)
                     ])
                 end
+                let(:ace_low_straight_flush) do
+                    Hand.new([
+                        Card.new(:five, :diamond),
+                        Card.new(:four, :diamond),
+                        Card.new(:three, :diamond),
+                        Card.new(:two, :diamond),
+                        Card.new(:ace, :diamond)
+                    ])
+                end
+                let(:low_straight_flush) do
+                    Hand.new([
+                        Card.new(:five, :diamond),
+                        Card.new(:four, :diamond),
+                        Card.new(:three, :diamond),
+                        Card.new(:two, :diamond),
+                        Card.new(:six, :diamond)
+                    ])
+                end
                 it 'returns high card hand' do
                     expect(straight_flush <=> high_card_straight_flush).to eq(-1)
                 end
                 it 'returns a tie when hands only differ by suit' do
                     expect(straight_flush <=> diamond_straight_flush).to eq(0)
+                end
+                it 'handles ace-low' do
+                    expect(low_straight_flush <=> ace_low_straight_flush).to eq(1)
                 end
             end
             describe 'four of a kind' do
@@ -284,11 +305,32 @@ describe 'Hand' do
                         Card.new(:heart, :seven)
                     ])
                 end
+                let(:ace_low_straight) do
+                    Hand.new([
+                        Card.new(:heart, :ace),
+                        Card.new(:spade, :two),
+                        Card.new(:diamond, :three),
+                        Card.new(:club, :four),
+                        Card.new(:heart, :five)
+                    ])
+                end
+                let(:low_straight) do
+                    Hand.new([
+                        Card.new(:spade, :six),
+                        Card.new(:heart, :two),
+                        Card.new(:club, :three),
+                        Card.new(:diamond, :four),
+                        Card.new(:heart, :five)
+                    ])
+                end
                 it 'returns high card hand' do
                     expect(jack_straight <=> striaght).to eq(1)
                 end
                 it 'returns tie when hands only differ by suit' do
                     expect(eq_straight <=> straight).to eq(0)
+                end
+                it 'handles ace-low' do
+                    expect(low_straight <=> ace_low_straight).to eq(1)
                 end
             end
             describe 'three of a kind' do
