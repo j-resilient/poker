@@ -26,21 +26,30 @@ class Hand
     end
 
     private
-    VALUES = [
-        :king, :queen, :jack, :ten, :nine,
-        :eight, :seven, :six, :five, :four,
-        :three, :two
-    ]
+    VALUES = {
+        :ace => 0, :king => 1, :queen => 2, :jack => 3,
+        :ten => 4, :nine => 5, :eight => 6, :seven => 7, :six => 8, 
+        :five => 9, :four => 10, :three => 11, :two => 12
+    }
 
     def straight_flush?
         straight? && flush?
     end
 
     def straight?
-        idx = VALUES.index(hand[0])
-        hand.each do |card|
-            return false unless VALUES[idx] == card.value
-            idx = (idx + 1) >= VALUES.length ? 0 : idx + 1 
+        hand_numbers = []
+        hand.each { |card| hand_numbers << VALUES[card.value] }
+        hand_numbers.sort!
+
+        if hand_numbers.first == 0 && hand_numbers.last == 12
+            hand_numbers.shift
+            hand_numbers.push(13)
+        end
+        
+        prev = hand_numbers.first
+        hand_numbers[1..-1].each do |num|
+            return false unless num == (prev + 1)
+            prev = num
         end
         true
     end
@@ -55,7 +64,7 @@ class Hand
 
     def same_card_count
         count = Hash.new(0)
-        hand.each { |card| count[card] += 1 }
+        hand.each { |card| count[card.value] += 1 }
         count.values
     end
 
@@ -75,3 +84,12 @@ class Hand
         same_card_count.include?(2)
     end
 end
+
+# x = Hand.new([
+#             Card.new(:club, :five),
+#             Card.new(:diamond, :five),
+#             Card.new(:heart, :five),
+#             Card.new(:spade, :five),
+#             Card.new(:diamond, :two)
+#         ])
+# print x.hand_rank
