@@ -48,8 +48,6 @@ class Card
             13
         when :ace
             14
-        else
-            1
         end
     end
     FACES = {
