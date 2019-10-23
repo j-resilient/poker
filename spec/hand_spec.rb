@@ -101,6 +101,16 @@ describe 'Hand' do
         ])
     end
 
+    let(:mixed_straight) do
+        Hand.new([
+            Card.new(:heart, :two),
+            Card.new(:spade, :three),
+            Card.new(:diamond, :ace),
+            Card.new(:club, :king),
+            Card.new(:heart, :queen)
+        ])
+    end
+
     let(:three_kind) do
         Hand.new([
             Card.new(:club, :queen),
@@ -178,6 +188,10 @@ describe 'Hand' do
         it 'allows ace to be low' do
             expect(ace_low_straight.hand_rank).to eq(:straight)
         end
+
+        it 'recognizes straights with high and low cards' do
+            expect(mixed_straight.hand_rank).to eq(:straight)
+        end
     end
 
     describe '#<=>' do
@@ -188,7 +202,7 @@ describe 'Hand' do
             expect(four_kind <=> four_kind).to eq(0)
         end
         it 'returns -1 when second hand is greater' do
-            expect(flush <=> two_pair).to eq(-1)
+            expect(two_pair <=> flush).to eq(-1)
         end
 
         context 'when comparing two hands of equal rank' do
