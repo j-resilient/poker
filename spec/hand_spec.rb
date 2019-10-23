@@ -362,7 +362,7 @@ describe 'Hand' do
                     ])
                 end
                 it 'returns high card hand' do
-                    expect(jack_straight <=> striaght).to eq(1)
+                    expect(jack_straight <=> straight).to eq(1)
                 end
                 it 'returns tie when hands only differ by suit' do
                     expect(eq_straight <=> straight).to eq(0)
