@@ -209,38 +209,38 @@ describe 'Hand' do
             describe 'straight flush' do
                 let(:high_card_straight_flush) do
                     Hand.new([
-                        Card.new(:queen, :diamond),
-                        Card.new(:jack, :diamond),
-                        Card.new(:ten, :diamond),
-                        Card.new(:nine, :diamond),
-                        Card.new(:eight, :diamond)
+                        Card.new(:diamond, :queen),
+                        Card.new(:diamond, :jack),
+                        Card.new(:diamond, :ten),
+                        Card.new(:diamond, :nine),
+                        Card.new(:diamond, :eight)
                     ])
                 end
                 let(:diamond_straight_flush) do
                     Hand.new([
-                        Card.new(:jack, :diamond),
-                        Card.new(:ten, :diamond),
-                        Card.new(:nine, :diamond),
-                        Card.new(:eight, :diamond),
-                        Card.new(:seven, :diamond)
+                        Card.new(:diamond, :jack),
+                        Card.new(:diamond, :ten),
+                        Card.new(:diamond, :nine),
+                        Card.new(:diamond, :eight),
+                        Card.new(:diamond, :seven)
                     ])
                 end
                 let(:ace_low_straight_flush) do
                     Hand.new([
-                        Card.new(:five, :diamond),
-                        Card.new(:four, :diamond),
-                        Card.new(:three, :diamond),
-                        Card.new(:two, :diamond),
-                        Card.new(:ace, :diamond)
+                        Card.new(:diamond, :five),
+                        Card.new(:diamond, :four),
+                        Card.new(:diamond, :three),
+                        Card.new(:diamond, :two),
+                        Card.new(:diamond, :ace)
                     ])
                 end
                 let(:low_straight_flush) do
                     Hand.new([
-                        Card.new(:five, :diamond),
-                        Card.new(:four, :diamond),
-                        Card.new(:three, :diamond),
-                        Card.new(:two, :diamond),
-                        Card.new(:six, :diamond)
+                        Card.new(:diamond, :five),
+                        Card.new(:diamond, :four),
+                        Card.new(:diamond, :three),
+                        Card.new(:diamond, :two),
+                        Card.new(:diamond, :six)
                     ])
                 end
                 it 'returns high card hand' do
