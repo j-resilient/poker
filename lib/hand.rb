@@ -1,4 +1,5 @@
 require_relative 'card'
+# require 'byebug'
 
 class Hand
     attr_accessor :hand
@@ -14,15 +15,19 @@ class Hand
     end
 
     def hand_rank
-        return :straight_flush if straight_flush?
-        return :four_kind if four_kind?
-        return :full_house if full_house?
+        return :straight_flush if straight? && flush?
+        return :four_kind if duplicates(4)
+        return :full_house if duplicates(3) && duplicates(2)
         return :flush if flush?
         return :straight if straight?
-        return :three_kind if three_kind?
-        return :two_pair if two_pair?
-        return :one_pair if one_pair?
+        return :three_kind if duplicates(3)
+        return :two_pair if same_card_count.values.count(2) == 2
+        return :one_pair if duplicates(2)
         :high_card
+    end
+
+    def self.winner(hands)
+        # compares an array of hands, not just 2
     end
 
     def <=>(hand2)
@@ -37,9 +42,13 @@ class Hand
 
         case self.hand_rank
         when :straight_flush, :straight
-            return compare_straights(hand2)
-        when :four_kind
-            return compare_four_kind(hand2)
+            compare_straights(hand2)
+        when :one_pair, :three_kind, :four_kind, :full_house
+            compare_duplicates(hand2)
+        when :two_pair
+            compare_two_pair(hand2)
+        when :high_card, :flush
+            compare_high_cards(hand2)
         end
     end
 
@@ -49,28 +58,16 @@ class Hand
         count
     end
 
-    HAND_POINTS = {
-        :straight_flush => 8,
-        :four_kind => 7,
-        :full_house => 6,
-        :flush => 5,
-        :straight => 4,
-        :three_kind => 3,
-        :two_pair => 2,
-        :one_pair => 1,
-        :high_card => 0
-    }
-
-    def sort!
-        hand.sort!
+    def duplicates(count)
+        same_card_count.has_value?(count)
     end
 
-    def straight_flush?
-        straight? && flush?
+    def flush?
+        hand.all? { |card| card.suit == hand[0].suit }
     end
 
-    def get_points
-        self.sort!
+    def map_points
+        self.hand.sort!
         points = hand.map { |card| card.points }
         if points.include?(14) && !points.include?(13)
             points.pop
@@ -79,8 +76,12 @@ class Hand
         points
     end
 
+    def mixed_high_low?(points)
+        points.include?(14) && points.include?(13) && points.include?(2)
+    end
+
     def straight?
-        points = get_points
+        points = map_points
 
         if mixed_high_low?(points)
             remaining_points = points.reject { |point| [2, 14, 13].include?(point) }
@@ -95,62 +96,91 @@ class Hand
         true
     end
 
-    def mixed_high_low?(points)
-        points.include?(14) && points.include?(13) && points.include?(2)
-    end
-
-    def flush?
-        hand.all? { |card| card.suit == hand[0].suit }
-    end
-
-    def four_kind?
-        same_card_count.has_value?(4)
-    end
-
-    def full_house?
-        three_kind? && one_pair?
-    end
-
-    def three_kind?
-        same_card_count.has_value?(3)
-    end
-
-    def two_pair?
-        same_card_count.values.count(2) == 2
-    end
-
-    def one_pair?
-        same_card_count.has_value?(2)
-    end
+    HAND_POINTS = {
+        :straight_flush => 8,
+        :four_kind => 7,
+        :full_house => 6,
+        :flush => 5,
+        :straight => 4,
+        :three_kind => 3,
+        :two_pair => 2,
+        :one_pair => 1,
+        :high_card => 0
+    }
 
     def compare_straights(hand2)
-        self.get_points.last <=> hand2.get_points.last
+        self.map_points.last <=> hand2.map_points.last
     end
 
-    def compare_four_kind(hand2)
-        self_card_count = self.same_card_count.invert
-        hand2_card_count = hand2.same_card_count.invert
+    def compare_two_pair(hand2)
+        self_pairs = self.same_card_count.select { |val, count| count == 2 }.keys
+        hand2_pairs = hand2.same_card_count.select { |val, count| count == 2 }.keys
 
-        self_four_card = self.hand.find { |card| card.value == self_card_count[4] }
-        hand2_four_card = hand2.hand.find { |card| card.value == hand2_card_count[4] }
+        self_pairs.map! { |val| hand.find { |card| card.value == val } }
+        hand2_pairs.map! { |val| hand2.hand.find { |card| card.value == val } }
 
-        equality = self_four_card <=> hand2_four_card
-        return equality unless equality == 0
+        self_pairs.sort!
+        hand2_pairs.sort!
 
-        self_kicker = self.hand.find { |card| card.value == self_card_count[1] }
-        hand2_kicker = hand2.hand.find { |card| card.value == hand2_card_count[1] }
+        until self_pairs.empty?
+            eq = self_pairs.pop <=> hand2_pairs.pop
+            return eq unless eq == 0
+        end
 
-        self_kicker <=> hand2_kicker
+        self_kicker_val = self.same_card_count.select { |val, count| count == 1 }.keys
+        self_kicker_card = hand.find { |card| card.value == self_kicker_val.first }
+
+        hand2_kicker_val = hand2.same_card_count.select { |val, count| count == 1 }.keys
+        hand2_kicker_card = hand2.hand.find { |card| card.value == hand2_kicker_val.first }
+
+        self_kicker_card <=> hand2_kicker_card
+    end
+
+    def compare_duplicates(hand2)
+        self_card_count = self.same_card_count.invert.sort_by { |k,v| -k }
+        hand2_card_count = hand2.same_card_count.invert.sort_by { |k,v| -k }
+
+        until self_card_count[0][0] == 1
+            self_count, self_card_val = self_card_count.shift
+            hand2_count, hand2_card_val = hand2_card_count.shift
+
+            self_card = self.hand.find { |card| card.value == self_card_val }
+            hand2_card = hand2.hand.find { |card| card.value == hand2_card_val }
+
+            eq = self_card <=> hand2_card
+            return eq unless eq == 0
+        end
+
+        new_self = Hand.new(hand.select { |card| self_card_count.flatten.include?(card.value) } )
+        new_hand2 = Hand.new(hand2.hand.select { |card| hand2_card_count.flatten.include?(card.value) } )
+
+        new_self.compare_high_cards(new_hand2)
+    end
+
+    def compare_high_cards(hand2)
+        self_points = self.map_points.reverse
+        hand2_points = hand2.map_points.reverse
+
+        self_points.each_with_index do |curr_points, idx|
+            eq = curr_points <=> hand2_points[idx]
+            return eq unless eq == 0
+        end
+
+        return 0
     end
 end
-# x = Hand.new([
-#     Card.new(:diamond, :king),
-#     Card.new(:diamond, :jack),
-#     Card.new(:diamond, :ace),
-#     Card.new(:diamond, :queen),
-#     Card.new(:diamond, :ten)
-# ])
-# x.hand.each { |card| print "#{card.display} "}
-# puts
-# x.sort!
-# x.hand.each { |card| print "#{card.display} "}
+x = Hand.new([
+        Card.new(:club, :jack),
+        Card.new(:spade, :jack),
+        Card.new(:heart, :three),
+        Card.new(:diamond, :three),
+        Card.new(:spade, :four)
+    ])
+y = Hand.new([
+        Card.new(:heart, :jack),
+        Card.new(:spade, :jack),
+        Card.new(:club, :three),
+        Card.new(:spade, :three),
+        Card.new(:heart, :two)
+    ])
+puts x <=> y
