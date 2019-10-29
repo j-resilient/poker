@@ -27,7 +27,7 @@ class Hand
     end
 
     def self.winner(hands)
-        # compares an array of hands, not just 2
+        hands.max
     end
 
     def <=>(hand2)
@@ -169,18 +169,18 @@ class Hand
         return 0
     end
 end
-x = Hand.new([
-        Card.new(:club, :jack),
-        Card.new(:spade, :jack),
-        Card.new(:heart, :three),
-        Card.new(:diamond, :three),
-        Card.new(:spade, :four)
-    ])
-y = Hand.new([
-        Card.new(:heart, :jack),
-        Card.new(:spade, :jack),
-        Card.new(:club, :three),
-        Card.new(:spade, :three),
-        Card.new(:heart, :two)
-    ])
-puts x <=> y
+# x = Hand.new([
+#         Card.new(:club, :jack),
+#         Card.new(:spade, :jack),
+#         Card.new(:heart, :three),
+#         Card.new(:diamond, :three),
+#         Card.new(:spade, :four)
+#     ])
+# y = Hand.new([
+#         Card.new(:heart, :jack),
+#         Card.new(:spade, :jack),
+#         Card.new(:club, :three),
+#         Card.new(:spade, :three),
+#         Card.new(:heart, :two)
+#     ])
+# puts x <=> y
