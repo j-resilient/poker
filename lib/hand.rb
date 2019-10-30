@@ -119,21 +119,26 @@ class Hand
             eq = self_pairs.pop <=> hand2_pairs.pop
             return eq unless eq == 0
         end
-        
+
         self.kicker <=> hand2.kicker
     end
 
     def get_pairs
         pairs = same_card_count.select { |val, count| count == 2 }.keys
         pairs.map! do |val| 
-            hand.find { |card| card.value == val }
+            get_card_from_hand(val)
         end
         pairs.sort!
     end
 
     def kicker
         val = same_card_count.select { |card_val, count| count == 1 }.keys
-        hand.find { |card| card.value == val.first }
+        get_card_from_hand(val.first)
+    end
+
+    # gets first card from hand that matches given value, regardless of suit
+    def get_card_from_hand(val)
+        hand.find { |card| card.value == val }
     end
 
     def compare_duplicates(hand2)
@@ -141,11 +146,11 @@ class Hand
         hand2_card_count = hand2.same_card_count.invert.sort_by { |k,v| -k }
 
         until self_card_count[0][0] == 1
-            self_count, self_card_val = self_card_count.shift
-            hand2_count, hand2_card_val = hand2_card_count.shift
+            self_card_val = self_card_count.shift.last
+            hand2_card_val = hand2_card_count.shift.last
 
-            self_card = self.hand.find { |card| card.value == self_card_val }
-            hand2_card = hand2.hand.find { |card| card.value == hand2_card_val }
+            self_card = get_card_from_hand(self_card_val)
+            hand2_card = hand2.get_card_from_hand(hand2_card_val)
 
             eq = self_card <=> hand2_card
             return eq unless eq == 0
@@ -169,18 +174,3 @@ class Hand
         return 0
     end
 end
-# x = Hand.new([
-#         Card.new(:club, :jack),
-#         Card.new(:spade, :jack),
-#         Card.new(:heart, :three),
-#         Card.new(:diamond, :three),
-#         Card.new(:spade, :four)
-#     ])
-# y = Hand.new([
-#         Card.new(:heart, :jack),
-#         Card.new(:spade, :jack),
-#         Card.new(:club, :three),
-#         Card.new(:spade, :three),
-#         Card.new(:heart, :two)
-#     ])
-# puts x <=> y
