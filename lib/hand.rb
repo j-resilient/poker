@@ -1,5 +1,4 @@
 require_relative 'card'
-# require 'byebug'
 
 class Hand
     attr_accessor :hand
@@ -113,27 +112,28 @@ class Hand
     end
 
     def compare_two_pair(hand2)
-        self_pairs = self.same_card_count.select { |val, count| count == 2 }.keys
-        hand2_pairs = hand2.same_card_count.select { |val, count| count == 2 }.keys
-
-        self_pairs.map! { |val| hand.find { |card| card.value == val } }
-        hand2_pairs.map! { |val| hand2.hand.find { |card| card.value == val } }
-
-        self_pairs.sort!
-        hand2_pairs.sort!
+        self_pairs = self.get_pairs
+        hand2_pairs = hand2.get_pairs
 
         until self_pairs.empty?
             eq = self_pairs.pop <=> hand2_pairs.pop
             return eq unless eq == 0
         end
+        
+        self.kicker <=> hand2.kicker
+    end
 
-        self_kicker_val = self.same_card_count.select { |val, count| count == 1 }.keys
-        self_kicker_card = hand.find { |card| card.value == self_kicker_val.first }
+    def get_pairs
+        pairs = same_card_count.select { |val, count| count == 2 }.keys
+        pairs.map! do |val| 
+            hand.find { |card| card.value == val }
+        end
+        pairs.sort!
+    end
 
-        hand2_kicker_val = hand2.same_card_count.select { |val, count| count == 1 }.keys
-        hand2_kicker_card = hand2.hand.find { |card| card.value == hand2_kicker_val.first }
-
-        self_kicker_card <=> hand2_kicker_card
+    def kicker
+        val = same_card_count.select { |card_val, count| count == 1 }.keys
+        hand.find { |card| card.value == val.first }
     end
 
     def compare_duplicates(hand2)
