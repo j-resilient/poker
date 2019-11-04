@@ -45,11 +45,11 @@ describe 'Game' do
         it 'returns true when only one player still has money' do
             game.add_players(1, 100)
             game.add_players(1, 0)
-            expect(game.game_over?).to be_true
+            expect(game.game_over?).to be true
         end
         it 'returns false when more than one player has money' do
             game.add_players(2, 100)
-            expect(game.game_over?).to be_false
+            expect(game.game_over?).to be false
         end
     end
 
