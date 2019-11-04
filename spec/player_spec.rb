@@ -11,23 +11,22 @@ describe 'Player' do
         end
     end
 
+    subject(:player_one) { Player.buy_in(100) }
+
     describe '#set_hand' do
         let(:hand) { double ('hand') }
-
         it 'sets the players hand' do
-            player.set_hand(hand)
-            expect(player.hand).to eq(hand)
+            player_one.set_hand(hand)
+            expect(player_one.hand).to eq(hand)
         end
     end
 
-    subject(:player_one) { Player.buy_in(100) 
-}
     describe '#bet' do
         it 'decrements the pot by correct amount' do
-            expect(player_one.bet(50)).to change { player_one.pot }.by(-50)
+            expect { player_one.bet(50) }.to change { player_one.pot }.by(-50)
         end
         it 'raises an error if bet is more than the pot' do
-            expect(player_one.bet(200)).to raise_error("Cannot bet more than you have.")
+            expect { player_one.bet(200) }.to raise_error("Cannot bet more than you have.")
         end
         it 'returns the bet amount' do
             expect(player_one.bet(50)).to eq(50)
@@ -36,12 +35,13 @@ describe 'Player' do
 
     describe '#add_winnings' do
         it 'adds winnings to pot' do
-            expect(player_one.add_winnings(100)).to change { player_one.pot }.by(100)
+            expect { player_one.add_winnings(100) }.to change { player_one.pot }.by(100)
         end
     end
 
     describe '#return cards' do
-        let(:hand) { double('Hand', :cards => double('Cards')) }
+        let(:cards) { double('cards') }
+        let(:hand) { double('Hand', :cards => cards) }
         before(:each) { player_one.set_hand(hand) }
         it 'returns cards' do
             expect(player_one.return_cards).to eq(cards)
