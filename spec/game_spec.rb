@@ -35,9 +35,9 @@ describe 'Game' do
             end
         end
         it 'does not give a hand to a player with no money' do
-            game.player[0].pot = 0
+            game.players[0].pot = 0
             game.deal
-            expect(game.player[0].hand).to be_nil
+            expect(game.players[0].hand).to be_nil
         end
     end
 
