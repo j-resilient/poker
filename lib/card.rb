@@ -8,7 +8,7 @@ class Card
     end
 
     def display
-        FACES[suit][value]
+        "#{FACES[suit][value]}  "
     end
 
     def <=>(card2)

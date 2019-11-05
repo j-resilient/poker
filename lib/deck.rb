@@ -5,6 +5,7 @@ class Deck
 
     def initialize(deck = create_deck)
         @deck = deck
+        deck.shuffle!
     end
 
     def shuffle!

@@ -7,6 +7,12 @@ class Hand
         @hand = hand
     end
 
+    def print_cards
+        cards = ""
+        hand.each { |card| cards += card.display }
+        cards
+    end
+
     def trade_cards(discard, new_cards)
         raise "Cannot discard card you don't have." unless discard.all? { |card| hand.include?(card) }
         hand.delete_if { |card| discard.include?(card) }
