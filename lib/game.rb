@@ -27,10 +27,17 @@ class Game
             end
         end
         print_table
+        declare_winner
+    end
+
+    def declare_winner
+        winning_hand = Hand.winner(@players.map { |player| player.hand.hand } )
+        winner = players.find { |player| player.hand.hand == winning_hand }
+        puts "Player #{players.index(winner) + 1} wins!"
     end
     
     def print_table
-        system("clear")
+        # system("clear")
         puts "Pot: $#{@pot}"
         players.each_with_index { |p, i| puts "Player #{i + 1} has $#{p.pot}" }
         puts "The bet is at $#{@current_bet}"
