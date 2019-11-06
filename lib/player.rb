@@ -1,6 +1,5 @@
 class Player
-    attr_accessor :pot, :hand
-    attr_reader :current_bet
+    attr_accessor :pot, :hand, :current_bet
 
     def self.buy_in(pot)
         Player.new(pot)

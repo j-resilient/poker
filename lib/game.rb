@@ -1,7 +1,6 @@
 require_relative 'deck'
 require_relative 'player'
 require_relative 'hand'
-require 'byebug'
 
 class Game
     attr_reader :deck, :pot, :players
@@ -43,7 +42,6 @@ class Game
             end_round_flag = false if @players.any? { |player| player.current_bet != @current_bet }
         end
 
-        print_table
         declare_winner
     end
 
@@ -55,17 +53,25 @@ class Game
     end
 
     def declare_winner
-        # debugger
         remaining_players = @players.reject { |player| player.folded? }
         hands = remaining_players.map { |player| player.hand }
+
         winning_hand = Hand.winner(hands)
-        winner = players.find { |player| player.hand == winning_hand }
+        winner = players.find_index { |player| player.hand == winning_hand }
+
+        reset_money(winner)
+
+        print_table
         @players.each_with_index { |player, idx| puts "Player #{idx + 1}: #{player.hand.print_cards}"}
-        winner_idx = players.index(winner)
-        @players[winner_idx].add_winnings(@pot)
-        @pot = 0
-        puts "Player #{winner_idx + 1} wins round!"
+        puts "Player #{winner + 1} wins round!"
         sleep(2)
+    end
+
+    def reset_money(winner)
+        @players[winner].add_winnings(@pot)
+        @pot = 0
+        @players.each { |player| player.current_bet = 0 }
+        @current_bet = 0
     end
     
     def print_table
