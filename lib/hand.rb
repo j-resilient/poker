@@ -1,22 +1,22 @@
 require_relative 'card'
 
 class Hand
-    attr_accessor :hand
+    attr_accessor :cards
 
-    def initialize(hand)
-        @hand = hand
+    def initialize(cards)
+        @cards = cards
     end
 
     def print_cards
         cards = ""
-        hand.each { |card| cards += card.display }
+        cards.each { |card| cards += card.display }
         cards
     end
 
     def trade_cards(discard, new_cards)
-        raise "Cannot discard card you don't have." unless discard.all? { |card| hand.include?(card) }
-        hand.delete_if { |card| discard.include?(card) }
-        hand.concat(new_cards)
+        raise "Cannot discard card you don't have." unless discard.all? { |card| cards.include?(card) }
+        cards.delete_if { |card| discard.include?(card) }
+        cards.concat(new_cards)
     end
 
     def self.winner(hands)
@@ -45,8 +45,8 @@ class Hand
 
         # check if the hands are literally identical
         # nil is falsy: everything else is truthy
-        return 0 if self.hand.all? do |card|
-            hand2.hand.find { |card2| (card <=> card2) == 0 }
+        return 0 if self.cards.all? do |card|
+            hand2.cards.find { |card2| (card <=> card2) == 0 }
         end
 
         # compare same-rank hands
@@ -67,15 +67,15 @@ class Hand
     # helper method: returns a hash of value => value count
     def same_card_count
         count = Hash.new(0)
-        hand.each { |card| count[card.value] += 1 }
+        cards.each { |card| count[card.value] += 1 }
         count
     end
 
     # helper method: returns a 'hand' of points in sorted order (least to most)
     # handles ace-high vs ace-low
     def map_points
-        hand.sort!
-        points = hand.map { |card| card.points }
+        cards.sort!
+        points = cards.map { |card| card.points }
         if points.include?(14) && !points.include?(13)
             points.pop
             points.unshift(1)
@@ -83,9 +83,9 @@ class Hand
         points
     end
 
-    # gets first card from hand that matches given value, regardless of suit
+    # gets first card from cards that matches given value, regardless of suit
     def get_card_from_hand(val)
-        hand.find { |card| card.value == val }
+        cards.find { |card| card.value == val }
     end
 
     # compares cards one by one, returning the high-card hand
@@ -135,7 +135,7 @@ class Hand
     end
 
     def flush?
-        hand.all? { |card| card.suit == hand[0].suit }
+        cards.all? { |card| card.suit == cards[0].suit }
     end
 
     # helper method: returns whether hand containing an ace is a mixed hand
@@ -202,8 +202,8 @@ class Hand
         end
 
         # create new hands out of the remaining kickers
-        new_self = Hand.new(hand.select { |card| self_card_count.flatten.include?(card.value) } )
-        new_hand2 = Hand.new(hand2.hand.select { |card| hand2_card_count.flatten.include?(card.value) } )
+        new_self = Hand.new(cards.select { |card| self_card_count.flatten.include?(card.value) } )
+        new_hand2 = Hand.new(hand2.cards.select { |card| hand2_card_count.flatten.include?(card.value) } )
 
         # compare kickers
         new_self.compare_high_cards(new_hand2)

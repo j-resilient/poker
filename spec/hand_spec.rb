@@ -14,7 +14,7 @@ describe 'Hand' do
 
     describe '#initialize' do
         it 'sets hand to input' do
-            expect(garbage_hand.hand).to eq(garbage_cards)
+            expect(garbage_hand.cards).to eq(garbage_cards)
         end
     end
 
@@ -24,12 +24,12 @@ describe 'Hand' do
         before(:each) { garbage_hand.trade_cards(discard, new_cards) }
 
         it 'removes expected cards from hand' do
-            expect(garbage_hand.hand).to_not include(discard[0])
-            expect(garbage_hand.hand).to_not include(discard[1])
+            expect(garbage_hand.cards).to_not include(discard[0])
+            expect(garbage_hand.cards).to_not include(discard[1])
         end
         it 'does not remove any other cards from hand' do
             garbage_cards[3..-1].each do |card|
-                expect(garbage_hand.hand).to include(card)
+                expect(garbage_hand.cards).to include(card)
             end
         end
         it 'adds new cards to hand' do
