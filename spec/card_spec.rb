@@ -20,7 +20,7 @@ describe 'Card' do
     
     describe '#display' do
         it 'displays face of card' do 
-            expect(heart_ace.display).to eq("🂱")
+            expect(heart_ace.display).to eq("🂱  ")
         end
     end
 
