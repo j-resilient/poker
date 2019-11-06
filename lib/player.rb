@@ -13,9 +13,9 @@ class Player
         @current_bet = 0
     end
 
-    def take_turn(input, idx, table_bet)
+    def take_turn(idx, table_bet)
         amt = table_bet - @current_bet
-        case input
+        case get_input
         when 'f', 'fold'
             fold
         when 'c', 'call'
@@ -27,6 +27,12 @@ class Player
             take_turn(idx, table_bet)
         end
         amt
+    end
+
+    def get_input
+        print "(c)all, (b)et, or (f)old > "
+        input = gets.chomp.downcase
+        input
     end
 
     def get_bet(idx, table_bet)

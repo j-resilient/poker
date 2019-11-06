@@ -8,9 +8,9 @@ class Hand
     end
 
     def print_cards
-        cards = ""
-        cards.each { |card| cards += card.display }
-        cards
+        faces = ""
+        cards.each { |card| faces += card.display }
+        faces
     end
 
     def trade_cards(discard, new_cards)
