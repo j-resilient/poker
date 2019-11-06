@@ -14,31 +14,39 @@ class Game
 
     def play_round
         end_round = false
-        until end_round || @players.one? { |player| player.folded? }
-        end_round = true
+        until end_round || @players.one? { |player| !player.folded? }
+            end_round = true
             @players.each_with_index do |player, idx|
                 next if player.folded?
-                print_table(idx)
+                print_table
                 print_round(idx)
-                @current_bet = player.take_turn(idx, @current_bet)
-                add_to_pot(@current_bet)
-                end_round = false if player.folded?
+                bet = player.take_turn(get_input, idx, @current_bet)
+                @current_bet = player.current_bet unless player.folded?
+                add_to_pot(bet)
+                end_round = false if player.folded? || @players.any? { |player| player.folded? || player.current_bet != @current_bet }
             end
         end
+        print_table
     end
-
-    def print_table(idx)
+    
+    def print_table
         system("clear")
         puts "Pot: $#{@pot}"
         players.each_with_index { |p, i| puts "Player #{i + 1} has $#{p.pot}" }
-        puts "The bet is at #{@current_bet}"
+        puts "The bet is at $#{@current_bet}"
         puts
     end
-
+    
     def print_round(idx)
         puts "Current Player: #{idx + 1}"
         puts "Player #{idx + 1} has bet: $#{@players[idx].current_bet}"
         puts "Player #{idx + 1}'s hand: #{@players[idx].hand.print_cards}"
+    end
+    
+    def get_input
+        print "(c)all, (b)et, or (f)old > "
+        input = gets.chomp.downcase
+        input
     end
 
     def add_players(count, buy_in)
@@ -58,7 +66,7 @@ class Game
         amt
     end
 end
-# game = Game.new
-# game.add_players(3, 100)
-# game.deal
-# game.play_round
+game = Game.new
+game.add_players(3, 100)
+game.deal
+game.play_round

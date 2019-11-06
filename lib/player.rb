@@ -13,21 +13,17 @@ class Player
         @current_bet = 0
     end
 
-    def take_turn(idx, table_bet)
-        print "(c)all, (b)et, (d)iscard, or (f)old > "
-        amt = 0
-        case gets.chomp.downcase
+    def take_turn(input, idx, table_bet)
+        amt = table_bet - @current_bet
+        case input
         when 'f', 'fold'
             fold
         when 'c', 'call'
-            bet(table_bet - @current_bet)
+            bet(amt) if table_bet > @current_bet
         when 'b', 'bet'
             amt = get_bet(idx, table_bet)
-        # when 'd', 'discard'
-        #     discard
-        #     take_turn(idx, table_bet)
         else
-            puts "must be (c)all, (b)et, (d)iscard, or (f)old"
+            puts "must be (c)all, (b)et, or (f)old"
             take_turn(idx, table_bet)
         end
         amt
@@ -37,7 +33,7 @@ class Player
         print "Bet (bankroll: $#{@pot}) > "
         amt = gets.chomp.to_i
         if (amt + @current_bet) < table_bet
-            puts "bet must at least match current bet"
+            puts "total bet must at least match current bet"
             get_bet(idx, table_bet)
         else
             begin
